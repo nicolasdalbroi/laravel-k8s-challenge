@@ -22,6 +22,23 @@
         <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
 
         @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+
+        <script>
+            if (localStorage.getItem('dark') === 'true') {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+
+            document.addEventListener('livewire:navigated', () => {
+                if (localStorage.getItem('dark') === 'true') {
+                    document.documentElement.classList.add('dark');
+                } else {
+                    document.documentElement.classList.remove('dark');
+                }
+            });
+        </script>
+
         @livewireStyles
         @livewireScripts
         @livewire('wire-elements-modal')
