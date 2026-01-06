@@ -47,15 +47,9 @@
                                         id="locale" 
                                         wire:model.live="locale" 
                                         class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:bg-gray-700 dark:text-gray-200 dark:border-gray-600">
-                                    <option value="en">English</option>
-                                    <option value="da">Danish</option>
-                                    <option value="de">German</option>
-                                    <option value="es">Spanish</option>
-                                    <option value="fr">French</option>
-                                    <option value="it">Italian</option>
-                                    <option value="nl">Dutch</option>
-                                    <option value="pt">Portuguese</option>
-                                    <option value="sv">Swedish</option>
+                                    @foreach(config('locales.supported', []) as $code => $name)
+                                        <option value="{{ $code }}">{{ $name }}</option>
+                                    @endforeach
                                 </select>
                                 @error('locale') 
                                     <span class="text-red-500 text-sm mt-1">{{ $message }}</span> 

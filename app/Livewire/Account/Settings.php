@@ -25,10 +25,12 @@ class Settings extends Component
 
     public function updateSettings(): void
     {
+        $supportedLocales = array_keys(config('locales.supported', []));
+
         $this->validate([
             'name' => 'required',
             'email' => 'required|email|unique:users,email,'.auth()->user()->id.',id',
-            'locale' => 'required|string|in:en,da,de,es,fr,it,nl,pt,sv',
+            'locale' => 'required|string|in:'.implode(',', $supportedLocales),
         ]);
 
         $previousEmail = auth()->user()->email;

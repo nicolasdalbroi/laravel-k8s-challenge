@@ -70,3 +70,30 @@ it('authenticated user locale takes precedence over cookie', function () {
 
     expect(App::getLocale())->toBe('fr');
 });
+
+it('falls back to english when user has invalid locale', function () {
+    $role = Role::firstOrCreate(['name' => 'Super Admin']);
+    $permission = Permission::firstOrCreate(['name' => 'access dashboard']);
+    $role->syncPermissions([$permission]);
+
+    $user = User::factory()->create();
+    $user->assignRole($role);
+
+    // Directly update to bypass validation
+    \DB::table('users')->where('id', $user->id)->update(['locale' => 'invalid']);
+    $user->refresh();
+
+    $this->actingAs($user)
+        ->get(route('admin.dashboard'))
+        ->assertStatus(200);
+
+    expect(App::getLocale())->toBe('en');
+});
+
+it('falls back to english when guest has invalid locale cookie', function () {
+    $this->withCookie('locale', 'invalid')
+        ->get(route('login'))
+        ->assertStatus(200);
+
+    expect(App::getLocale())->toBe('en');
+});

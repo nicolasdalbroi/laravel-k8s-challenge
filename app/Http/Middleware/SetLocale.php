@@ -11,11 +11,6 @@ use Symfony\Component\HttpFoundation\Response;
 class SetLocale
 {
     /**
-     * Supported locales
-     */
-    private const SUPPORTED_LOCALES = ['en', 'da', 'de', 'es', 'fr', 'it', 'nl', 'pt', 'sv'];
-
-    /**
      * Handle an incoming request.
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
@@ -47,6 +42,9 @@ class SetLocale
             if ($this->isValidLocale($userLocale)) {
                 return $userLocale;
             }
+
+            // Invalid locale in database, fallback to English
+            return 'en';
         }
 
         // For guests, check the cookie
@@ -55,10 +53,15 @@ class SetLocale
             if ($this->isValidLocale($cookieLocale)) {
                 return $cookieLocale;
             }
+
+            // Invalid locale in cookie, fallback to English
+            return 'en';
         }
 
-        // Default to the app's configured locale
-        return config('app.locale', 'en');
+        // Default to the app's configured locale or English
+        $defaultLocale = config('app.locale', 'en');
+
+        return $this->isValidLocale($defaultLocale) ? $defaultLocale : 'en';
     }
 
     /**
@@ -66,6 +69,6 @@ class SetLocale
      */
     private function isValidLocale(string $locale): bool
     {
-        return in_array($locale, self::SUPPORTED_LOCALES, true);
+        return array_key_exists($locale, config('locales.supported', []));
     }
 }
