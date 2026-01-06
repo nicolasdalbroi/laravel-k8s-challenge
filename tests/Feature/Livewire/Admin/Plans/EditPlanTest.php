@@ -100,7 +100,7 @@ it('can save a updated plan', function () {
         ->stripe_id->toBe('New Stripe ID')
         ->features->toBe('New Features')
         ->interval->toBe('year')
-        ->price->toBe('199.00')
+        ->price->toEqual(199.00)
         ->currency->toBe('USD');
 
 });

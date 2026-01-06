@@ -25,8 +25,8 @@ class EditPlan extends ModalComponent
     #[Validate('required|string|max:255|in:month,year')]
     public string $interval = 'month';
 
-    #[Validate('required|string|max:255')]
-    public string $price = '';
+    #[Validate('required|numeric|min:0')]
+    public float $price = 0.0;
 
     #[Validate('required|string|max:3')]
     public string $currency = 'DKK';
@@ -46,9 +46,9 @@ class EditPlan extends ModalComponent
         $this->slug      = $plan->slug      ?? '';
         $this->stripe_id = $plan->stripe_id ?? '';
         $this->features  = $plan->features  ?? '';
-        $this->price     = $plan->price     ?? '';
-        $this->currency  = $plan->currency  ?? 'DKK';
-        $this->interval  = $plan->interval  ?? '';
+        $this->price     = (float) ($plan->price ?? 0.0);
+        $this->currency  = $plan->currency ?? 'DKK';
+        $this->interval  = $plan->interval ?? 'month';
     }
 
     public function save()
