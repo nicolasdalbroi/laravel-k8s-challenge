@@ -18,7 +18,7 @@ class EditProfile extends Component
     {
         $this->name = auth()->user()->name;
         $this->email = auth()->user()->email;
-        $this->locale = auth()->user()->locale;
+        $this->locale = auth()->user()->locale ?? 'en';
     }
 
     public function updateProfile(): void
