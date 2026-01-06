@@ -11,6 +11,11 @@ use Symfony\Component\HttpFoundation\Response;
 class SetLocale
 {
     /**
+     * Supported locales
+     */
+    private const SUPPORTED_LOCALES = ['en', 'da', 'de', 'es', 'fr', 'it', 'nl', 'pt', 'sv'];
+
+    /**
      * Handle an incoming request.
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
@@ -23,8 +28,8 @@ class SetLocale
 
         $response = $next($request);
 
-        // For guests, set a long-lived cookie to remember the locale
-        if (! auth()->check() && $request->hasCookie('locale') === false) {
+        // For guests, set/update the locale cookie
+        if (! auth()->check()) {
             Cookie::queue('locale', $locale, 525600); // 1 year in minutes
         }
 
@@ -38,15 +43,29 @@ class SetLocale
     {
         // For authenticated users, use their saved locale
         if (auth()->check() && auth()->user()->locale) {
-            return auth()->user()->locale;
+            $userLocale = auth()->user()->locale;
+            if ($this->isValidLocale($userLocale)) {
+                return $userLocale;
+            }
         }
 
         // For guests, check the cookie
         if ($request->hasCookie('locale')) {
-            return $request->cookie('locale');
+            $cookieLocale = $request->cookie('locale');
+            if ($this->isValidLocale($cookieLocale)) {
+                return $cookieLocale;
+            }
         }
 
         // Default to the app's configured locale
         return config('app.locale', 'en');
+    }
+
+    /**
+     * Check if the locale is supported.
+     */
+    private function isValidLocale(string $locale): bool
+    {
+        return in_array($locale, self::SUPPORTED_LOCALES, true);
     }
 }
