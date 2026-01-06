@@ -68,6 +68,8 @@ Route::middleware('auth')->group(function () {
 });
 
 // Subscription and Account stuff
+Route::get('account/settings', \App\Livewire\Account\Settings::class)->name('account.settings')->middleware('auth');
+
 Route::group(['namespace' => 'Account', 'prefix' => 'account'], function () {
     Route::get('/', [\App\Http\Controllers\Account\AccountController::class, 'index'])->name('account')->middleware('auth');
 
