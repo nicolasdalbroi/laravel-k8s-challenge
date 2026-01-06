@@ -34,7 +34,7 @@ class EditPermission extends ModalComponent
     {
         // Validate request
         $this->validate([
-            'name' => 'required|max:255|unique:permissions,name,' . $this->permission->id,
+            'name' => 'required|max:255|unique:permissions,name,'.$this->permission->id,
         ]);
         try {
             // Update category

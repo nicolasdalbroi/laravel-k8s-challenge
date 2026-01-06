@@ -14,7 +14,7 @@ class CreateSuperAdminCommandTest extends TestCase
     /**
      * @test
      */
-    public function createSuperAdmin()
+    public function create_super_admin()
     {
         //        Role::create(['name' => 'Super Admin']);
 

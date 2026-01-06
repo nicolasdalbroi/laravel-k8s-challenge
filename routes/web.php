@@ -103,4 +103,4 @@ Route::group(['namespace' => 'Subscriptions'], function () {
     Route::post('subscriptions', [\App\Http\Controllers\Subscriptions\SubscriptionController::class, 'store'])->name('subscriptions.store');
 });
 
-//include __DIR__ . '/admin.php';
+// include __DIR__ . '/admin.php';

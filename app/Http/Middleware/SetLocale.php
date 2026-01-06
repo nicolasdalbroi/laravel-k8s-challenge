@@ -18,19 +18,19 @@ class SetLocale
     public function handle(Request $request, Closure $next): Response
     {
         $locale = $this->getLocale($request);
-        
+
         App::setLocale($locale);
-        
+
         $response = $next($request);
-        
+
         // For guests, set a long-lived cookie to remember the locale
         if (! auth()->check() && $request->hasCookie('locale') === false) {
             Cookie::queue('locale', $locale, 525600); // 1 year in minutes
         }
-        
+
         return $response;
     }
-    
+
     /**
      * Get the locale from the request.
      */
@@ -40,12 +40,12 @@ class SetLocale
         if (auth()->check() && auth()->user()->locale) {
             return auth()->user()->locale;
         }
-        
+
         // For guests, check the cookie
         if ($request->hasCookie('locale')) {
             return $request->cookie('locale');
         }
-        
+
         // Default to the app's configured locale
         return config('app.locale', 'en');
     }

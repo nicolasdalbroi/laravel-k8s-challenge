@@ -22,6 +22,7 @@ class EditUser extends ModalComponent
 
     #[Rule(['required', 'string', 'email', 'max:255'])]
     public string $email = '';
+
     public array $userRoles = [];
 
     public static function modalMaxWidth(): string

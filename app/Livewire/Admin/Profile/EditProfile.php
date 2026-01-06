@@ -11,7 +11,9 @@ class EditProfile extends Component
     use LivewireAlert;
 
     public $name;
+
     public $email;
+
     public $locale;
 
     public function mount(): void
@@ -25,7 +27,7 @@ class EditProfile extends Component
     {
         $this->validate([
             'name' => 'required',
-            'email' => 'required|email|unique:users,email,' . auth()->user()->id . ',id',
+            'email' => 'required|email|unique:users,email,'.auth()->user()->id.',id',
             'locale' => 'required|string|in:en,da,de,es,fr,it,nl,pt,sv',
         ]);
 

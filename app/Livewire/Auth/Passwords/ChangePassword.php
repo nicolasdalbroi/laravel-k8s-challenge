@@ -11,7 +11,9 @@ use Livewire\Component;
 class ChangePassword extends Component
 {
     public $current_password;
+
     public $password;
+
     public $password_confirmation;
 
     public function updated($fields)

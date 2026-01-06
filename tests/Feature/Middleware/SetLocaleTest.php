@@ -9,7 +9,7 @@ it('sets locale from authenticated user preference', function () {
     $role = Role::firstOrCreate(['name' => 'Super Admin']);
     $permission = Permission::firstOrCreate(['name' => 'access dashboard']);
     $role->syncPermissions([$permission]);
-    
+
     $user = User::factory()->create([
         'locale' => 'da',
     ]);
@@ -41,7 +41,7 @@ it('uses default locale when authenticated user has no locale set', function () 
     $role = Role::firstOrCreate(['name' => 'Super Admin']);
     $permission = Permission::firstOrCreate(['name' => 'access dashboard']);
     $role->syncPermissions([$permission]);
-    
+
     $user = User::factory()->create();
     $user->update(['locale' => null]);
     $user->assignRole($role);
@@ -57,7 +57,7 @@ it('authenticated user locale takes precedence over cookie', function () {
     $role = Role::firstOrCreate(['name' => 'Super Admin']);
     $permission = Permission::firstOrCreate(['name' => 'access dashboard']);
     $role->syncPermissions([$permission]);
-    
+
     $user = User::factory()->create([
         'locale' => 'fr',
     ]);
@@ -70,5 +70,3 @@ it('authenticated user locale takes precedence over cookie', function () {
 
     expect(App::getLocale())->toBe('fr');
 });
-
-

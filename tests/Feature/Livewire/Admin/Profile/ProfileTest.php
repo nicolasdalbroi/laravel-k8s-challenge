@@ -121,4 +121,3 @@ it('requires a locale to be set', function () {
         ->call('updateProfile')
         ->assertHasErrors(['locale']);
 });
-
