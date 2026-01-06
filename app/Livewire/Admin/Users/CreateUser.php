@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Livewire\Admin\Users;
 
 use App\Models\User;
@@ -37,8 +39,8 @@ class CreateUser extends ModalComponent
         try {
             $user = User::query()
                 ->create([
-                    'name' => $this->name,
-                    'email' => $this->email,
+                    'name'     => $this->name,
+                    'email'    => $this->email,
                     'password' => Hash::make($this->password),
                 ]);
 

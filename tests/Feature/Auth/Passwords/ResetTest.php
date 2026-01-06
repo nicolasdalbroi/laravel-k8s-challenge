@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Feature\Auth\Passwords;
 
 use App\Models\User;
@@ -23,8 +25,8 @@ class ResetTest extends TestCase
         $token = Str::random(16);
 
         DB::table('password_resets')->insert([
-            'email' => $user->email,
-            'token' => Hash::make($token),
+            'email'      => $user->email,
+            'token'      => Hash::make($token),
             'created_at' => Carbon::now(),
         ]);
 
@@ -45,8 +47,8 @@ class ResetTest extends TestCase
         $token = Str::random(16);
 
         DB::table('password_resets')->insert([
-            'email' => $user->email,
-            'token' => Hash::make($token),
+            'email'      => $user->email,
+            'token'      => Hash::make($token),
             'created_at' => Carbon::now(),
         ]);
 
@@ -59,7 +61,7 @@ class ResetTest extends TestCase
             ->call('resetPassword');
 
         $this->assertTrue(auth()->attempt([
-            'email' => $user->email,
+            'email'    => $user->email,
             'password' => 'new-password',
         ]));
     }

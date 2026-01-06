@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Account\Subscriptions;
 
 use App\Http\Controllers\Controller;
@@ -12,8 +14,8 @@ class SubscriptionController extends Controller
     {
         return view('account.subscriptions.index', [
             'subscription' => $request->user()->presentSubscription(),
-            'invoice' => $request->user()->presentUpcomingInvoice(),
-            'customer' => $request->user()->presentCustomer(),
+            'invoice'      => $request->user()->presentUpcomingInvoice(),
+            'customer'     => $request->user()->presentCustomer(),
         ]);
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Feature\Auth;
 
 use App\Models\User;
@@ -50,7 +52,7 @@ class VerifyTest extends TestCase
         auth()->login($user);
 
         $url = URL::temporarySignedRoute('verification.verify', Carbon::now()->addMinutes(Config::get('auth.verification.expire', 60)), [
-            'id' => $user->getKey(),
+            'id'   => $user->getKey(),
             'hash' => sha1($user->getEmailForVerification()),
         ]);
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Models\User;
 use Livewire\Livewire;
 
@@ -11,7 +13,7 @@ it('can render the edit profile page', function () {
 
 it('can update the profile', function () {
     $this->assertDatabaseHas('users', [
-        'name' => 'Admin',
+        'name'  => 'Admin',
         'email' => 'admin@admin.com',
     ]);
 
@@ -23,19 +25,19 @@ it('can update the profile', function () {
         ->assertHasNoErrors();
 
     $this->assertDatabaseHas('users', [
-        'name' => 'New Name',
+        'name'  => 'New Name',
         'email' => 'hej@netbums.dk',
     ]);
 
     $this->assertDatabaseMissing('users', [
-        'name' => 'Admin',
+        'name'  => 'Admin',
         'email' => 'admin@admin.com',
     ]);
 });
 
 it('can not update the profile with invalid data', function () {
     $this->assertDatabaseHas('users', [
-        'name' => 'Admin',
+        'name'  => 'Admin',
         'email' => 'admin@admin.com',
     ]);
 
@@ -47,7 +49,7 @@ it('can not update the profile with invalid data', function () {
         ->assertHasErrors(['name', 'email']);
 
     $this->assertDatabaseHas('users', [
-        'name' => 'Admin',
+        'name'  => 'Admin',
         'email' => 'admin@admin.com',
     ]);
 });
@@ -58,7 +60,7 @@ it('can not update the profile with an email that already exists', function () {
     ]);
 
     $this->assertDatabaseHas('users', [
-        'name' => 'Admin',
+        'name'  => 'Admin',
         'email' => 'admin@admin.com',
     ]);
 
@@ -72,7 +74,7 @@ it('can not update the profile with an email that already exists', function () {
 
 it('can logout the user if the email is changed', function () {
     $this->assertDatabaseHas('users', [
-        'name' => 'Admin',
+        'name'  => 'Admin',
         'email' => 'admin@admin.com',
     ]);
 
@@ -86,7 +88,7 @@ it('can logout the user if the email is changed', function () {
     $this->assertGuest();
 
     $this->assertDatabaseHas('users', [
-        'name' => 'New Name',
+        'name'  => 'New Name',
         'email' => 'new@admin.com',
     ]);
 });
@@ -101,7 +103,7 @@ it('can update the locale preference', function () {
         ->assertHasNoErrors();
 
     $this->assertDatabaseHas('users', [
-        'id' => $this->user->id,
+        'id'     => $this->user->id,
         'locale' => 'da',
     ]);
 });

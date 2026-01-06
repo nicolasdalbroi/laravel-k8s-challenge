@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
 
     /*
@@ -13,10 +15,10 @@ return [
     |
     */
 
-    'reset' => 'Ditt lösenord har återställts!',
-    'sent' => 'Vi har skickat din länk för lösenordsåterställning via e-post!',
+    'reset'     => 'Ditt lösenord har återställts!',
+    'sent'      => 'Vi har skickat din länk för lösenordsåterställning via e-post!',
     'throttled' => 'Vänligen vänta innan du försöker igen.',
-    'token' => 'Denna token för lösenordsåterställning är ogiltig.',
-    'user' => 'Vi kan inte hitta en användare med den e-postadressen.',
+    'token'     => 'Denna token för lösenordsåterställning är ogiltig.',
+    'user'      => 'Vi kan inte hitta en användare med den e-postadressen.',
 
 ];

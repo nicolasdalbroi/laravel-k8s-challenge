@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Models\User;
 use Livewire\Livewire;
 
@@ -13,8 +15,8 @@ it('can render the account settings page', function () {
 
 it('can update account settings', function () {
     $user = User::factory()->create([
-        'name' => 'John Doe',
-        'email' => 'john@example.com',
+        'name'   => 'John Doe',
+        'email'  => 'john@example.com',
         'locale' => 'en',
     ]);
 
@@ -26,9 +28,9 @@ it('can update account settings', function () {
         ->assertHasNoErrors();
 
     $this->assertDatabaseHas('users', [
-        'id' => $user->id,
-        'name' => 'Jane Doe',
-        'email' => 'john@example.com',
+        'id'     => $user->id,
+        'name'   => 'Jane Doe',
+        'email'  => 'john@example.com',
         'locale' => 'da',
     ]);
 });
@@ -43,7 +45,7 @@ it('can update locale preference from frontend', function () {
         ->assertHasNoErrors();
 
     $this->assertDatabaseHas('users', [
-        'id' => $user->id,
+        'id'     => $user->id,
         'locale' => 'fr',
     ]);
 });
@@ -82,7 +84,7 @@ it('can logout user if email is changed in frontend', function () {
     $this->assertGuest();
 
     $this->assertDatabaseHas('users', [
-        'id' => $user->id,
+        'id'    => $user->id,
         'email' => 'new@example.com',
     ]);
 });

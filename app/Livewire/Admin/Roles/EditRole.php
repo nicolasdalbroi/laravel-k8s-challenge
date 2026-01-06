@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Livewire\Admin\Roles;
 
 use Exception;
@@ -69,7 +71,7 @@ class EditRole extends ModalComponent
     public function render(): View
     {
         return view('livewire.admin.roles.edit-role', [
-            'role' => $this->role,
+            'role'        => $this->role,
             'permissions' => Permission::all(),
         ]);
     }

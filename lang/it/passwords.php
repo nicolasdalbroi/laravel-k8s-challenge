@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
 
     /*
@@ -13,10 +15,10 @@ return [
     |
     */
 
-    'reset' => 'La tua password è stata reimpostata!',
-    'sent' => 'Ti abbiamo inviato via email il link per reimpostare la password!',
+    'reset'     => 'La tua password è stata reimpostata!',
+    'sent'      => 'Ti abbiamo inviato via email il link per reimpostare la password!',
     'throttled' => 'Per favore attendi prima di riprovare.',
-    'token' => 'Questo token di reimpostazione password non è valido.',
-    'user' => "Non riusciamo a trovare un utente con quell'indirizzo email.",
+    'token'     => 'Questo token di reimpostazione password non è valido.',
+    'user'      => "Non riusciamo a trovare un utente con quell'indirizzo email.",
 
 ];

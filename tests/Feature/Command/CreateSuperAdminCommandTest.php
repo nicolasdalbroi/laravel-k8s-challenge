@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Feature\Command;
 
 use App\Models\User;
@@ -26,7 +28,7 @@ class CreateSuperAdminCommandTest extends TestCase
             ->expectsOutput('User created successfully');
 
         $this->assertDatabaseHas('users', [
-            'name' => 'Test User',
+            'name'  => 'Test User',
             'email' => 'test@test.com',
         ]);
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Livewire\Admin;
 
 use Exception;
@@ -26,7 +28,7 @@ class Permissions extends Component
     public array $searchableFields = ['name'];
 
     protected $listeners = [
-        'deletePermission' => 'destroy',
+        'deletePermission'  => 'destroy',
         'permissionCreated' => '$refresh',
         'permissionUpdated' => '$refresh',
     ];

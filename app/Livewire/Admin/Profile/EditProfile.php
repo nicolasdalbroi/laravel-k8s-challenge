@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Livewire\Admin\Profile;
 
 use Illuminate\View\View;
@@ -18,8 +20,8 @@ class EditProfile extends Component
 
     public function mount(): void
     {
-        $this->name = auth()->user()->name;
-        $this->email = auth()->user()->email;
+        $this->name   = auth()->user()->name;
+        $this->email  = auth()->user()->email;
         $this->locale = auth()->user()->locale ?? 'en';
     }
 
@@ -28,17 +30,17 @@ class EditProfile extends Component
         $supportedLocales = array_keys(config('locales.supported', []));
 
         $this->validate([
-            'name' => 'required',
-            'email' => 'required|email|unique:users,email,'.auth()->user()->id.',id',
+            'name'   => 'required',
+            'email'  => 'required|email|unique:users,email,'.auth()->user()->id.',id',
             'locale' => 'required|string|in:'.implode(',', $supportedLocales),
         ]);
 
         $previousEmail = auth()->user()->email;
-        $newEmail = $this->email;
+        $newEmail      = $this->email;
 
         auth()->user()->update([
-            'name' => $this->name,
-            'email' => $this->email,
+            'name'   => $this->name,
+            'email'  => $this->email,
             'locale' => $this->locale,
         ]);
 

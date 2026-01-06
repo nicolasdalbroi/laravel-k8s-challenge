@@ -39,7 +39,7 @@
 
                 <div class="flex-1"></div>
 
-                <x-nav.subscription-navitem to_route="account.subscriptions">
+                <x-nav.subscription-navitem to_route="account.settings">
                     {{ __('My Profile') }}
                 </x-nav.subscription-navitem>
 

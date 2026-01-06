@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Livewire\Admin\Plans\EditPlan;
 use App\Models\Plan;
 use App\Models\User;
@@ -86,10 +88,10 @@ it('can save a updated plan', function () {
         ->assertHasNoErrors();
 
     assertDatabaseMissing('plans', [
-        'title' => $plan->title,
-        'slug' => $plan->slug,
+        'title'     => $plan->title,
+        'slug'      => $plan->slug,
         'stripe_id' => $plan->stripe_id,
-        'features' => $plan->features,
+        'features'  => $plan->features,
     ]);
 
     expect($plan->refresh())

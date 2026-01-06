@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Livewire\Admin;
 
 use App\Models\User;
@@ -29,7 +31,7 @@ class Users extends Component
     public array $searchableFields = ['name', 'email'];
 
     protected $listeners = [
-        'deleteUser' => 'destroy',
+        'deleteUser'  => 'destroy',
         'userUpdated' => '$refresh',
         'userCreated' => '$refresh',
     ];

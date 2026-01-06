@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Livewire\Admin\Plans;
 
 use App\Models\Plan;
@@ -39,14 +41,14 @@ class EditPlan extends ModalComponent
     {
         $this->authorize('edit plans');
 
-        $this->plan = $plan;
-        $this->title = $plan->title ?? '';
-        $this->slug = $plan->slug ?? '';
+        $this->plan      = $plan;
+        $this->title     = $plan->title     ?? '';
+        $this->slug      = $plan->slug      ?? '';
         $this->stripe_id = $plan->stripe_id ?? '';
-        $this->features = $plan->features ?? '';
-        $this->price = $plan->price ?? '';
-        $this->currency = $plan->currency ?? 'DKK';
-        $this->interval = $plan->interval ?? '';
+        $this->features  = $plan->features  ?? '';
+        $this->price     = $plan->price     ?? '';
+        $this->currency  = $plan->currency  ?? 'DKK';
+        $this->interval  = $plan->interval  ?? '';
     }
 
     public function save()
@@ -56,13 +58,13 @@ class EditPlan extends ModalComponent
         $this->validate();
 
         $this->plan->update([
-            'title' => $this->title,
-            'slug' => $this->slug,
+            'title'     => $this->title,
+            'slug'      => $this->slug,
             'stripe_id' => $this->stripe_id,
-            'features' => $this->features,
-            'price' => $this->price,
-            'currency' => $this->currency,
-            'interval' => $this->interval,
+            'features'  => $this->features,
+            'price'     => $this->price,
+            'currency'  => $this->currency,
+            'interval'  => $this->interval,
         ]);
 
         $this->alert('success', __('plans.update_successful'));

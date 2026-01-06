@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Livewire\Admin;
 
 use Exception;
@@ -27,7 +29,7 @@ class Roles extends Component
     public array $searchableFields = ['name'];
 
     protected $listeners = [
-        'deleteRole' => 'destroy',
+        'deleteRole'  => 'destroy',
         'roleUpdated' => '$refresh',
         'roleCreated' => '$refresh',
     ];

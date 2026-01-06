@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
 
     /*
@@ -13,10 +15,10 @@ return [
     |
     */
 
-    'reset' => 'Uw wachtwoord is opnieuw ingesteld!',
-    'sent' => 'We hebben u een e-mail gestuurd met de link om uw wachtwoord opnieuw in te stellen!',
+    'reset'     => 'Uw wachtwoord is opnieuw ingesteld!',
+    'sent'      => 'We hebben u een e-mail gestuurd met de link om uw wachtwoord opnieuw in te stellen!',
     'throttled' => 'Wacht alstublieft voordat u het opnieuw probeert.',
-    'token' => 'Dit wachtwoordhersteltoken is ongeldig.',
-    'user' => 'We kunnen geen gebruiker vinden met dat e-mailadres.',
+    'token'     => 'Dit wachtwoordhersteltoken is ongeldig.',
+    'user'      => 'We kunnen geen gebruiker vinden met dat e-mailadres.',
 
 ];

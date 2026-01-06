@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Livewire\Admin;
 
 use App\Models\Plan;
@@ -30,7 +32,7 @@ class Plans extends Component
     public array $searchableFields = ['title', 'slug', 'stripe_id'];
 
     protected $listeners = [
-        'deletePlan' => 'destroy',
+        'deletePlan'  => 'destroy',
         'planCreated' => '$refresh',
         'planUpdated' => '$refresh',
     ];

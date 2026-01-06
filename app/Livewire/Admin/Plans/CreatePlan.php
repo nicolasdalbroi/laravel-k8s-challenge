@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Livewire\Admin\Plans;
 
 use App\Models\Plan;
@@ -40,13 +42,13 @@ class CreatePlan extends ModalComponent
         $this->validate();
 
         Plan::query()->create([
-            'title' => $this->title,
-            'slug' => $this->slug,
+            'title'     => $this->title,
+            'slug'      => $this->slug,
             'stripe_id' => $this->stripe_id,
-            'features' => $this->features,
-            'interval' => $this->interval,
-            'currency' => $this->currency,
-            'price' => $this->price,
+            'features'  => $this->features,
+            'interval'  => $this->interval,
+            'currency'  => $this->currency,
+            'price'     => $this->price,
         ]);
 
         $this->dispatch('planCreated');

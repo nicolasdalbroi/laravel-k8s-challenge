@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Livewire\Admin\Permissions;
 
 use Exception;
@@ -27,7 +29,7 @@ class EditPermission extends ModalComponent
         abort_if(! auth()->user()->hasPermissionTo('edit permissions'), 403);
 
         $this->permission = Permission::find($permission);
-        $this->name = $this->permission->name;
+        $this->name       = $this->permission->name;
     }
 
     public function update(): void

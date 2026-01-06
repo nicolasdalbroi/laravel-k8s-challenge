@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests;
 
 use App\Models\User;
@@ -18,7 +20,7 @@ abstract class TestCase extends BaseTestCase
         $this->withoutVite();
 
         $this->user = User::factory()->create([
-            'name' => 'Admin',
+            'name'  => 'Admin',
             'email' => 'admin@admin.com',
         ]);
         Role::create(['name' => 'Super Admin']);

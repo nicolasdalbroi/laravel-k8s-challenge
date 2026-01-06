@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Presenters;
 
 use Carbon\Carbon;
@@ -22,11 +24,11 @@ class InvoicePresenter
     {
         $formatter = new IntlMoneyFormatter(
             new NumberFormatter(config('cashier.currency_locale'), NumberFormatter::CURRENCY),
-            new ISOCurrencies
+            new ISOCurrencies()
         );
         $money = new Money(
             $this->model->amount_due,
-            new Currency(strtoupper(config('cashier.currency')))
+            new Currency(mb_strtoupper(config('cashier.currency')))
         );
 
         return $formatter->format($money);

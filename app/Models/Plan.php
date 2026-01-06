@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -29,7 +31,7 @@ class Plan extends Model
         // map the list. If a line begins with a + sign, set the included key to true,else if - sign, set to false
         return array_map(function ($item) {
             return [
-                'name' => ltrim($item, '+- '),
+                'name'     => ltrim($item, '+- '),
                 'included' => str_starts_with($item, '+'),
             ];
         }, $list);

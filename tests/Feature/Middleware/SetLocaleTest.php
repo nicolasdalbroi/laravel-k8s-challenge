@@ -1,13 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Models\User;
 use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
 it('sets locale from authenticated user preference', function () {
-    $role = Role::firstOrCreate(['name' => 'Super Admin']);
+    $role       = Role::firstOrCreate(['name' => 'Super Admin']);
     $permission = Permission::firstOrCreate(['name' => 'access dashboard']);
     $role->syncPermissions([$permission]);
 
@@ -39,7 +40,7 @@ it('uses default locale when no preference is set for guests', function () {
 });
 
 it('uses default locale when authenticated user has no locale set', function () {
-    $role = Role::firstOrCreate(['name' => 'Super Admin']);
+    $role       = Role::firstOrCreate(['name' => 'Super Admin']);
     $permission = Permission::firstOrCreate(['name' => 'access dashboard']);
     $role->syncPermissions([$permission]);
 
@@ -55,7 +56,7 @@ it('uses default locale when authenticated user has no locale set', function () 
 });
 
 it('authenticated user locale takes precedence over cookie', function () {
-    $role = Role::firstOrCreate(['name' => 'Super Admin']);
+    $role       = Role::firstOrCreate(['name' => 'Super Admin']);
     $permission = Permission::firstOrCreate(['name' => 'access dashboard']);
     $role->syncPermissions([$permission]);
 
@@ -73,7 +74,7 @@ it('authenticated user locale takes precedence over cookie', function () {
 });
 
 it('falls back to english when user has invalid locale', function () {
-    $role = Role::firstOrCreate(['name' => 'Super Admin']);
+    $role       = Role::firstOrCreate(['name' => 'Super Admin']);
     $permission = Permission::firstOrCreate(['name' => 'access dashboard']);
     $role->syncPermissions([$permission]);
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Livewire\Admin\Plans\CreatePlan;
 use App\Models\Plan;
 use App\Models\User;
@@ -90,12 +92,12 @@ it('can create a plan', function () {
     assertDatabaseCount('plans', 1);
 
     $this->assertDatabaseHas('plans', [
-        'title' => 'Test Plan',
-        'slug' => 'test-plan',
+        'title'     => 'Test Plan',
+        'slug'      => 'test-plan',
         'stripe_id' => 'test-plan',
-        'features' => "Feature 1\nFeature 2\nFeature 3",
-        'interval' => 'month',
-        'price' => '99.00',
-        'currency' => 'DKK',
+        'features'  => "Feature 1\nFeature 2\nFeature 3",
+        'interval'  => 'month',
+        'price'     => '99.00',
+        'currency'  => 'DKK',
     ]);
 });

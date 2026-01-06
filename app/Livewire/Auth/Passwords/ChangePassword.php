@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Livewire\Auth\Passwords;
 
 use App\Models\User;
@@ -20,7 +22,7 @@ class ChangePassword extends Component
     {
         $this->validateOnly($fields, [
             'current_password' => 'required',
-            'password' => 'required|min:8|confirmed|different:current_password',
+            'password'         => 'required|min:8|confirmed|different:current_password',
         ]);
     }
 
@@ -28,11 +30,11 @@ class ChangePassword extends Component
     {
         $this->validate([
             'current_password' => 'required',
-            'password' => 'required|min:8|confirmed|different:current_password',
+            'password'         => 'required|min:8|confirmed|different:current_password',
         ]);
 
         if (Hash::check($this->current_password, auth()->user()->password)) {
-            $user = User::findOrFail(auth()->user()->id);
+            $user           = User::findOrFail(auth()->user()->id);
             $user->password = Hash::make($this->password);
             $user->save();
             session()->flash('password_success', 'Password has been changed successfully!');

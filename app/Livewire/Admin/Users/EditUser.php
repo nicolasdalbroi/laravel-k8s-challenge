@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Livewire\Admin\Users;
 
 use App\Models\User;
@@ -32,8 +34,8 @@ class EditUser extends ModalComponent
 
     public function mount($user): void
     {
-        $this->user = User::find($user);
-        $this->name = $this->user->name;
+        $this->user  = User::find($user);
+        $this->name  = $this->user->name;
         $this->email = $this->user->email;
 
         // get user roles
@@ -48,7 +50,7 @@ class EditUser extends ModalComponent
         try {
             // Update category
             $this->user->update([
-                'name' => $this->name,
+                'name'  => $this->name,
                 'email' => $this->email,
             ]);
 
@@ -72,7 +74,7 @@ class EditUser extends ModalComponent
     public function render(): View
     {
         return view('livewire.admin.users.edit-user', [
-            'user' => $this->user,
+            'user'  => $this->user,
             'roles' => Role::all(),
         ]);
     }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Subscriptions;
 
 use App\Http\Controllers\Controller;
@@ -21,10 +23,10 @@ class SubscriptionController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'token' => 'required',
+            'token'  => 'required',
             'coupon' => [
                 'nullable',
-                new ValidCoupon,
+                new ValidCoupon(),
             ],
             'plan' => 'required|exists:plans,slug',
         ]);

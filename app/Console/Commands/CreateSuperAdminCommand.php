@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Console\Commands;
 
 use App\Models\User;
@@ -41,8 +43,8 @@ class CreateSuperAdminCommand extends Command
 
         // create the user
         $user = User::query()->create([
-            'name' => $name,
-            'email' => $email,
+            'name'     => $name,
+            'email'    => $email,
             'password' => bcrypt($password),
         ]);
 

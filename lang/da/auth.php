@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
 
     /*
@@ -13,7 +15,7 @@ return [
     |
     */
 
-    'failed' => 'Disse legitimationsoplysninger matcher ikke vores optegnelser.',
+    'failed'   => 'Disse legitimationsoplysninger matcher ikke vores optegnelser.',
     'password' => 'Den angivne adgangskode er forkert.',
     'throttle' => 'For mange loginforsøg. Prøv venligst igen om :seconds sekunder.',
 
