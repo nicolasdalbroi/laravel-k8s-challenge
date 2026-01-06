@@ -90,3 +90,34 @@ it('can logout the user if the email is changed', function () {
         'email' => 'new@admin.com',
     ]);
 });
+
+it('can update the locale preference', function () {
+    $this->user->update(['locale' => 'en']);
+
+    Livewire::actingAs($this->user)
+        ->test(\App\Livewire\Admin\Profile\EditProfile::class)
+        ->set('locale', 'da')
+        ->call('updateProfile')
+        ->assertHasNoErrors();
+
+    $this->assertDatabaseHas('users', [
+        'id' => $this->user->id,
+        'locale' => 'da',
+    ]);
+});
+
+it('validates locale is a valid option', function () {
+    Livewire::actingAs($this->user)
+        ->test(\App\Livewire\Admin\Profile\EditProfile::class)
+        ->set('locale', 'invalid')
+        ->call('updateProfile')
+        ->assertHasErrors(['locale']);
+});
+
+it('requires a locale to be set', function () {
+    Livewire::actingAs($this->user)
+        ->test(\App\Livewire\Admin\Profile\EditProfile::class)
+        ->set('locale', '')
+        ->call('updateProfile')
+        ->assertHasErrors(['locale']);
+});

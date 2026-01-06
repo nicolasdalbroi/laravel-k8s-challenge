@@ -11,19 +11,26 @@ class EditProfile extends Component
     use LivewireAlert;
 
     public $name;
+
     public $email;
+
+    public $locale;
 
     public function mount(): void
     {
         $this->name = auth()->user()->name;
         $this->email = auth()->user()->email;
+        $this->locale = auth()->user()->locale ?? 'en';
     }
 
     public function updateProfile(): void
     {
+        $supportedLocales = array_keys(config('locales.supported', []));
+
         $this->validate([
             'name' => 'required',
-            'email' => 'required|email|unique:users,email,' . auth()->user()->id . ',id',
+            'email' => 'required|email|unique:users,email,'.auth()->user()->id.',id',
+            'locale' => 'required|string|in:'.implode(',', $supportedLocales),
         ]);
 
         $previousEmail = auth()->user()->email;
@@ -32,6 +39,7 @@ class EditProfile extends Component
         auth()->user()->update([
             'name' => $this->name,
             'email' => $this->email,
+            'locale' => $this->locale,
         ]);
 
         if ($previousEmail !== $newEmail) {
