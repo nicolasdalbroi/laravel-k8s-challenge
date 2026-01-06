@@ -37,7 +37,10 @@ it('can fetch the plan from the provided plan id', function () {
         ->assertSet('title', $plan->title)
         ->assertSet('slug', $plan->slug)
         ->assertSet('stripe_id', $plan->stripe_id)
-        ->assertSet('features', $plan->features);
+        ->assertSet('features', $plan->features)
+        ->assertSet('interval', $plan->interval)
+        ->assertSet('price', $plan->price)
+        ->assertSet('currency', $plan->currency);
 
 });
 
@@ -55,6 +58,9 @@ it('has wired properties and methods', function () {
         ->assertPropertyWired('slug')
         ->assertPropertyWired('stripe_id')
         ->assertPropertyWired('features')
+        ->assertPropertyWired('interval')
+        ->assertPropertyWired('price')
+        ->assertPropertyWired('currency')
         ->assertMethodWired('save');
 });
 
@@ -73,6 +79,9 @@ it('can save a updated plan', function () {
         ->set('slug', 'New-Plan-Slug')
         ->set('stripe_id', 'New Stripe ID')
         ->set('features', 'New Features')
+        ->set('interval', 'year')
+        ->set('price', '199.00')
+        ->set('currency', 'USD')
         ->call('save')
         ->assertHasNoErrors();
 
@@ -87,6 +96,9 @@ it('can save a updated plan', function () {
         ->title->toBe('New Plan Title')
         ->slug->toBe('New-Plan-Slug')
         ->stripe_id->toBe('New Stripe ID')
-        ->features->toBe('New Features');
+        ->features->toBe('New Features')
+        ->interval->toBe('year')
+        ->price->toBe('199.00')
+        ->currency->toBe('USD');
 
 });
