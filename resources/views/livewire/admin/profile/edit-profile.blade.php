@@ -17,6 +17,21 @@
                     <input type="email" name="email" id="email" wire:model.live="email" class="border border-gray-300 p-2 rounded mt-2 focus:outline-none focus:border-primary-500 dark:bg-gray-700 dark:text-stone-200 dark:border-gray-600">
                     @error('email') <span class="text-red-500">{{ $message }}</span> @enderror
                 </div>
+                <div class="flex flex-col">
+                    <label for="locale" class="text-stone-700 dark:text-stone-200">Language</label>
+                    <select name="locale" id="locale" wire:model.live="locale" class="border border-gray-300 p-2 rounded mt-2 focus:outline-none focus:border-primary-500 dark:bg-gray-700 dark:text-stone-200 dark:border-gray-600">
+                        <option value="en">English</option>
+                        <option value="da">Danish</option>
+                        <option value="de">German</option>
+                        <option value="es">Spanish</option>
+                        <option value="fr">French</option>
+                        <option value="it">Italian</option>
+                        <option value="nl">Dutch</option>
+                        <option value="pt">Portuguese</option>
+                        <option value="sv">Swedish</option>
+                    </select>
+                    @error('locale') <span class="text-red-500">{{ $message }}</span> @enderror
+                </div>
             </div>
             <div class="flex justify-end mt-4 items-center space-x-4">
                 <button type="submit"

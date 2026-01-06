@@ -12,11 +12,13 @@ class EditProfile extends Component
 
     public $name;
     public $email;
+    public $locale;
 
     public function mount(): void
     {
         $this->name = auth()->user()->name;
         $this->email = auth()->user()->email;
+        $this->locale = auth()->user()->locale;
     }
 
     public function updateProfile(): void
@@ -24,6 +26,7 @@ class EditProfile extends Component
         $this->validate([
             'name' => 'required',
             'email' => 'required|email|unique:users,email,' . auth()->user()->id . ',id',
+            'locale' => 'required|string|in:en,da,de,es,fr,it,nl,pt,sv',
         ]);
 
         $previousEmail = auth()->user()->email;
@@ -32,6 +35,7 @@ class EditProfile extends Component
         auth()->user()->update([
             'name' => $this->name,
             'email' => $this->email,
+            'locale' => $this->locale,
         ]);
 
         if ($previousEmail !== $newEmail) {
