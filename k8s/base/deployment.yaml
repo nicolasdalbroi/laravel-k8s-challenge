@@ -1,0 +1,97 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: laravel-app
+  namespace: laravel-prod
+  labels:
+    app.kubernetes.io/name: laravel-app
+    app.kubernetes.io/managed-by: kustomize
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: laravel-app
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0        
+  template:
+    metadata:
+      labels:
+        app: laravel-app
+    spec:      
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 82             
+        runAsGroup: 82
+        fsGroup: 82
+
+      containers:
+        - name: laravel
+          image: laravel-app:latest
+          imagePullPolicy: IfNotPresent  
+
+          ports:
+            - containerPort: 9000
+              name: fpm
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "64Mi"
+            limits:
+              cpu: "200m"
+              memory: "256Mi"
+          envFrom:
+            - configMapRef:
+                name: laravel-config
+          env:
+            - name: APP_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: laravel-secrets
+                  key: APP_KEY
+
+          # ── Liveness probe: is the container alive? ──────────────────────
+          # Uses /health endpoint — lightweight, no DB check
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8080          # nginx sidecar or fpm wrapper port
+            initialDelaySeconds: 30
+            periodSeconds: 15
+            failureThreshold: 3
+            timeoutSeconds: 5
+
+          # ── Readiness probe: is the container ready for traffic? ─────────
+          # Uses /ready endpoint — checks DB connectivity
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: 8080
+            initialDelaySeconds: 15
+            periodSeconds: 10
+            failureThreshold: 3
+            timeoutSeconds: 5
+
+          # ── Writable dirs Laravel needs ──────────────────────────────────
+          volumeMounts:
+            - name: laravel-storage
+              mountPath: /var/www/html/storage
+            - name: laravel-cache
+              mountPath: /var/www/html/bootstrap/cache
+
+      volumes:
+        - name: laravel-storage
+          emptyDir: {}
+        - name: laravel-cache
+          emptyDir: {}
+
+      # ── Spread pods across nodes for resilience ──────────────────────────
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: DoNotSchedule
+          labelSelector:
+            matchLabels:
+              app: laravel-app
