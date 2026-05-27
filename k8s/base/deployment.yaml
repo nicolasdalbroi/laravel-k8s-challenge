@@ -15,26 +15,29 @@ spec:
     type: RollingUpdate
     rollingUpdate:
       maxSurge: 1
-      maxUnavailable: 0        
+      maxUnavailable: 0          # zero-downtime deploys
   template:
     metadata:
       labels:
         app: laravel-app
-    spec:      
+    spec:
+      # ── Security: drop all capabilities, run as non-root ──────────────────
       securityContext:
         runAsNonRoot: true
-        runAsUser: 82             
+        runAsUser: 82             # www-data on Alpine
         runAsGroup: 82
         fsGroup: 82
 
       containers:
         - name: laravel
           image: laravel-app:latest
-          imagePullPolicy: IfNotPresent  
+          imagePullPolicy: IfNotPresent  # use local image loaded by deploy.sh
 
           ports:
             - containerPort: 9000
               name: fpm
+
+          # ── Resource limits (required for HPA) ──────────────────────────
           resources:
             requests:
               cpu: "50m"
@@ -42,9 +45,13 @@ spec:
             limits:
               cpu: "200m"
               memory: "256Mi"
+
+          # ── Environment from ConfigMap ───────────────────────────────────
           envFrom:
             - configMapRef:
                 name: laravel-config
+
+          # ── Sensitive env from Secret ────────────────────────────────────
           env:
             - name: APP_KEY
               valueFrom:
@@ -52,40 +59,30 @@ spec:
                   name: laravel-secrets
                   key: APP_KEY
 
-          # ── Liveness probe: is the container alive? ──────────────────────
-          # Uses /health endpoint — lightweight, no DB check
+          # ── Liveness probe: is PHP-FPM alive and config valid? ──────────
           livenessProbe:
-            httpGet:
-              path: /health
-              port: 8080          # nginx sidecar or fpm wrapper port
+            exec:
+              command:
+                - php-fpm
+                - -t
             initialDelaySeconds: 30
             periodSeconds: 15
             failureThreshold: 3
             timeoutSeconds: 5
 
-          # ── Readiness probe: is the container ready for traffic? ─────────
-          # Uses /ready endpoint — checks DB connectivity
+          # ── Readiness probe: is PHP able to execute? ─────────────────────
           readinessProbe:
-            httpGet:
-              path: /ready
-              port: 8080
+            exec:
+              command:
+                - php
+                - -r
+                - "echo 'ready';"
             initialDelaySeconds: 15
             periodSeconds: 10
             failureThreshold: 3
             timeoutSeconds: 5
 
-          # ── Writable dirs Laravel needs ──────────────────────────────────
-          volumeMounts:
-            - name: laravel-storage
-              mountPath: /var/www/html/storage
-            - name: laravel-cache
-              mountPath: /var/www/html/bootstrap/cache
 
-      volumes:
-        - name: laravel-storage
-          emptyDir: {}
-        - name: laravel-cache
-          emptyDir: {}
 
       # ── Spread pods across nodes for resilience ──────────────────────────
       topologySpreadConstraints:

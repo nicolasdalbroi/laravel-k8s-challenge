@@ -11,6 +11,13 @@ images:
     newName: laravel-app
     newTag: local
 
+secretGenerator:
+  - name: laravel-secrets
+    literals:
+      - APP_KEY=YmFzZTY0OjhlWnUzMDUxN0tCL21TUFNKT2FyWStvRXRqVHEwb01odjlnYUhvQU80OEk9
+    options:
+      disableNameSuffixHash: true
+
 patches:
   - patch: |-
       - op: replace
