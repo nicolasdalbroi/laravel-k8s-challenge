@@ -13,8 +13,8 @@ jobs:
       - name: Build image
         run: docker build -t laravel-app:${{ github.sha }} .
 
-      - name: Scan image
-        uses: aquasecurity/trivy-action@0.20.0
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@v0.36.0
         with:
           image-ref: laravel-app:${{ github.sha }}
           format: table
