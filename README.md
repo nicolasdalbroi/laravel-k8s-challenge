@@ -1,4 +1,8 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+<p align="center">
+  <a href="https://laravel.com" target="_blank">
+    <img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo">
+  </a>
+</p>
 
 <p align="center">
 <a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
@@ -7,52 +11,68 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-## About Laravel
+# 🚀 Laravel Kubernetes Deployment (Local)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+This project deploys a Laravel application to a local Kubernetes cluster using **Kind**, **Docker**, and **Kustomize**.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 📦 Prerequisites
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- Docker
+- kubectl
+- Kind
 
-## Learning Laravel
+Verify:
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+docker --version
+kubectl version --client
+kind version
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## ⚙️ 1. Create Kubernetes Cluster (Kind)
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+./scripts/setup-kind.sh
 
-## Agentic Development
+kubectl get nodes
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+## 📊 2. Install Metrics Server (Required for HPA)
 
-```bash
-composer require laravel/boost --dev
+./scripts/install-metrics.sh
 
-php artisan boost:install
-```
+kubectl top nodes
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+## 🐳 3. Build & Deploy Application
 
-## Contributing
+./scripts/deploy-local.sh
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## 🔍 4. Verify Deployment
 
-## Code of Conduct
+kubectl get pods -n laravel-prod
+kubectl get svc -n laravel-prod
+kubectl get hpa -n laravel-prod
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## 🌐 5. Access Application (Port Forward)
 
-## Security Vulnerabilities
+kubectl port-forward svc/laravel-app 8080:9000 -n laravel-prod
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## 🧪 6. Test Endpoints
 
-## License
+curl http://localhost:8080/health
+curl http://localhost:8080/ready
+curl http://localhost:8080/info
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## 📈 7. Test Auto-Scaling
+
+curl "http://localhost:8080/load-test?duration=30&iterations=10000000"
+
+kubectl get hpa -w -n laravel-prod
+
+## 🛠 Troubleshooting
+
+kubectl get apiservices | grep metrics
+kubectl describe pod <pod-name> -n laravel-prod
+kubectl logs -f deployment/laravel-app -n laravel-prod
+
+## ⚡ Quick Start
+
+./scripts/setup-kind.sh && \
+./scripts/install-metrics.sh && \
+./scripts/deploy-local.sh
