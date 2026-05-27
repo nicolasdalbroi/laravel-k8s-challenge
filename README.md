@@ -55,13 +55,13 @@ kubectl port-forward svc/laravel-app 8080:9000 -n laravel-prod
 
 ## 🧪 6. Test Endpoints
 
-curl http://localhost:8080/health
-curl http://localhost:8080/ready
-curl http://localhost:8080/info
+curl http://localhost:8080/api/health
+curl http://localhost:8080/api/ready
+curl http://localhost:8080/api/info
 
 ## 📈 7. Test Auto-Scaling
 
-curl "http://localhost:8080/load-test?duration=30&iterations=10000000"
+curl "http://localhost:8080/api/load-test?duration=30&iterations=10000000"
 
 kubectl get hpa -w -n laravel-prod
 
