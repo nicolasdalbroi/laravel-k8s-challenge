@@ -1,19 +1,23 @@
-name: Build and Deploy
-
+name: Build, Scan
 on:
   push:
     branches: [main]
-
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Build Docker image
+      - name: Build image
         run: docker build -t laravel-app:${{ github.sha }} .
 
-      - name: Verify image
-        run: docker images | grep laravel-app
+      - name: Scan image
+        uses: aquasecurity/trivy-action@0.20.0
+        with:
+          image-ref: laravel-app:${{ github.sha }}
+          format: table
+          exit-code: 1
+          ignore-unfixed: true
+          severity: CRITICAL,HIGH
